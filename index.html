@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LEVATE PROPERTIES | Real Estate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Hanken+Grotesk:wght@300;400;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#c5a368",
+                        "surface": "#121414",
+                        "surface-dim": "#121414",
+                        "surface-bright": "#38393a",
+                        "surface-container-lowest": "#0c0f0f",
+                        "surface-container-low": "#1a1c1c",
+                        "surface-container": "#1e2020",
+                        "surface-container-high": "#282a2b",
+                        "surface-container-highest": "#333535",
+                        "on-surface": "#e2e2e2",
+                        "on-surface-variant": "#d1c5b5",
+                        "outline": "#9a8f81",
+                        "background": "#121414"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-desktop": "80px",
+                        "section-gap": "160px",
+                        "gutter": "32px",
+                        "margin-mobile": "24px",
+                        "container-max-width": "1440px"
+                    },
+                    "fontFamily": {
+                        "display": ["Libre Caslon Text", "serif"],
+                        "body": ["Hanken Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Cinematic Animations */
+        .reveal-up { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 1.2s cubic-bezier(0.2, 1, 0.3, 1), transform 1.2s cubic-bezier(0.2, 1, 0.3, 1); 
+        }
+        .fade-in { 
+            opacity: 0; 
+            transition: opacity 1.5s cubic-bezier(0.2, 1, 0.3, 1); 
+        }
+        .active { 
+            opacity: 1 !important; 
+            transform: translateY(0) !important; 
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-up, .fade-in, .hero-stagger {
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        .glass-panel { backdrop-filter: blur(24px); background: rgba(18, 20, 20, 0.8); }
+        
+        body { background-color: #121414; color: #e2e2e2; font-family: 'Hanken Grotesk', sans-serif; overflow-x: hidden; }
+        
+        .hero-bg { position: absolute; inset: 0; z-index: 0; }
+        .hero-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); transform: scale(1.1); transition: transform 10s ease-out; }
+        .hero-bg.active img { transform: scale(1); }
+
+        .nav-link { font-size: 12px; letter-spacing: 0.15em; font-weight: 600; text-transform: uppercase; color: #d1c5b5; transition: color 0.3s; }
+        .nav-link:hover { color: #c5a368; }
+        
+        .btn-outline { 
+            border: 1px solid #c5a368; 
+            color: #c5a368; 
+            padding: 12px 24px; 
+            font-size: 12px; 
+            font-weight: 600; 
+            letter-spacing: 0.1em; 
+            text-transform: uppercase; 
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); 
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-outline:hover { 
+            background: #c5a368; 
+            color: #121414; 
+            box-shadow: 0 0 20px rgba(197, 163, 104, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary { 
+            background: #c5a368; 
+            color: #121414; 
+            padding: 16px 32px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            letter-spacing: 0.1em; 
+            text-transform: uppercase; 
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); 
+            box-shadow: 0 4px 0 rgba(197, 163, 104, 0.2);
+        }
+        .btn-primary:hover { 
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(197, 163, 104, 0.4);
+        }
+
+        /* Card Hover Effects */
+        .interactive-card {
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .interactive-card:hover {
+            transform: scale(1.02) translateY(-8px);
+            border-color: rgba(197, 163, 104, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .hero-bg{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+}
+
+.hero-bg video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(0.5);
+    transform:scale(1.05);
+}
+
+        .hero-stagger { opacity: 0; transform: translateY(20px); }
+
+        /* ── Hamburger Button (mobile only) ── */
+        #hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            padding: 8px;
+            border: 1px solid rgba(197,163,104,0.25);
+            border-radius: 4px;
+            background: transparent;
+            transition: border-color 0.3s;
+        }
+        #hamburger:hover { border-color: rgba(197,163,104,0.7); }
+        #hamburger span {
+            display: block;
+            height: 1.5px;
+            background: #d1c5b5;
+            border-radius: 2px;
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s, background 0.3s;
+        }
+        #hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: #c5a368; }
+        #hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        #hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: #c5a368; }
+
+        /* ── Mobile Drawer ── */
+        #mobile-drawer {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            pointer-events: none;
+        }
+        #drawer-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        #drawer-panel {
+            position: absolute;
+            top: 0; right: 0;
+            width: min(300px, 85vw);
+            height: 100%;
+            background: #0c0f0f;
+            border-left: 1px solid rgba(197,163,104,0.15);
+            transform: translateX(100%);
+            transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
+            padding: 6rem 2.5rem 3rem;
+            overflow-y: auto;
+        }
+        #mobile-drawer.open { pointer-events: auto; }
+        #mobile-drawer.open #drawer-backdrop { opacity: 1; }
+        #mobile-drawer.open #drawer-panel { transform: translateX(0); }
+
+        .drawer-link {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #d1c5b5;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid rgba(154,143,129,0.15);
+            transition: color 0.3s, padding-left 0.3s;
+            text-decoration: none;
+        }
+        .drawer-link:hover { color: #c5a368; padding-left: 0.5rem; }
+        .drawer-cta {
+            margin-top: 2.5rem;
+            border: 1px solid #c5a368;
+            color: #c5a368;
+            padding: 14px 0;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: all 0.35s;
+            text-decoration: none;
+            border-radius: 2px;
+            display: block;
+        }
+        .drawer-cta:hover { background: #c5a368; color: #121414; }
+
+        @media (min-width: 768px) {
+    #hamburger,
+    #mobile-drawer {
+        display: none !important;
+    }
+}
+
+    </style>
+</head>
+<body id="top" class="selection:bg-primary selection:text-surface">
+    <!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-8 transition-all duration-700 ease-in-out" id="top-nav">
+<a href="#top"
+   class="font-display text-2xl tracking-[0.2em] text-on-surface hover:text-primary transition-colors duration-300">
+    LEVATE PROPERTIES
+</a>
+<div class="hidden md:flex gap-12 items-center">
+<a class="nav-link" href="#testimonials">REVIEWS</a>
+<a class="nav-link" href="#services">SERVICES</a>
+<a class="nav-link" href="#about">ABOUT</a>
+<a class="nav-link" href="#contact">CONTACT</a>
+<a href="#location" class="btn-outline">
+    Get in Touch
+</a></div>
+<!-- Hamburger: mobile only -->
+<button id="hamburger" class="md:hidden" aria-label="Open navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+</button>
+</nav>
+
+<!-- Mobile Drawer -->
+<div id="mobile-drawer" class="md:hidden" aria-hidden="true">
+    <div id="drawer-backdrop"></div>
+    <div id="drawer-panel">
+        <a class="drawer-link" href="#testimonials">Reviews</a>
+        <a class="drawer-link" href="#services">Services</a>
+        <a class="drawer-link" href="#about">About</a>
+        <a class="drawer-link" href="#contact">Contact</a>
+        <a class="drawer-link" href="#location">Location</a>
+        <a class="drawer-cta" href="#contact">Get in Touch</a>
+    </div>
+</div>
+<!-- Hero Section -->
+<section class="relative h-screen w-full overflow-hidden flex items-center px-margin-mobile md:px-margin-desktop pt-32 md:pt-0"><div class="hero-bg">
+    <video autoplay muted loop playsinline>
+        <source src="assets/videos/hero.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-r from-background/80 via-background/20 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-2xl">
+<div class="w-12 h-[1px] bg-primary mb-8 hero-stagger"></div>
+<h1 class="font-display text-5xl md:text-7xl mb-8 leading-tight italic hero-stagger">
+                Crafting Spaces,<br/>Building Dreams
+            </h1>
+<p class="font-body text-lg text-on-surface-variant mb-12 max-w-lg leading-relaxed hero-stagger">
+                Premium real estate in Uttar Pradesh — farmland, luxury residences, and commercial spaces that define modern living.
+            </p>
+<div class="flex flex-wrap gap-8 items-center hero-stagger">
+    <a href="#contact" class="btn-primary">
+        Let's Talk
+    </a>
+<button class="group flex items-center gap-4 text-on-surface font-semibold text-xs tracking-widest uppercase">
+<span class="material-symbols-outlined text-4xl group-hover:text-primary transition-all duration-300 transform group-hover:scale-110">play_circle</span>
+                    Watch Film
+                </button>
+</div>
+</div>
+</section>
+<!-- Quote Section -->
+<section class="py-section-gap bg-surface-container-lowest overflow-hidden">
+<div class="max-w-4xl mx-auto px-margin-desktop text-center reveal-up">
+<span class="font-body text-xs font-bold text-primary tracking-[0.4em] mb-12 block uppercase">LEVATE PROPERTIES</span>
+<h2 class="font-display text-3xl md:text-5xl italic text-on-surface leading-snug">
+                "We don't just sell properties — we curate lifestyles rooted in India's rich heritage and modern aspirations."
+            </h2>
+<div class="mt-12 text-on-surface-variant font-body italic text-lg">— The Indian Family, Since 20XX</div>
+</div>
+</section>
+<!-- Services Grid -->
+<section class="py-section-gap bg-surface px-margin-desktop overflow-hidden" id="services">
+<div class="max-w-container-max-width mx-auto">
+<div class="text-center mb-20 reveal-up">
+<span class="text-xs font-bold text-primary tracking-[0.3em] uppercase mb-4 block">What We Do</span>
+<h2 class="font-display text-5xl italic">Our Services</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Service 1 -->
+<div class="bg-surface-container p-16 flex flex-col items-center text-center interactive-card reveal-up border border-transparent">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">home</span>
+<h3 class="font-display text-2xl mb-4">Residential Development</h3>
+</div>
+<!-- Service 2 -->
+<div class="bg-surface-container p-16 flex flex-col items-center text-center interactive-card reveal-up border border-transparent">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">corporate_fare</span>
+<h3 class="font-display text-2xl mb-4">Commercial Properties</h3>
+</div>
+<!-- Service 3 -->
+<div class="bg-surface-container p-16 flex flex-col items-center text-center interactive-card reveal-up border border-transparent">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">forest</span>
+<h3 class="font-display text-2xl mb-4">Farmland &amp; Farmhouses</h3>
+</div>
+<!-- Service 4 -->
+<div class="bg-surface-container p-16 flex flex-col items-center text-center interactive-card reveal-up border border-transparent">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">trending_up</span>
+<h3 class="font-display text-2xl mb-4">Property Investment</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Farmland Section -->
+<section class="flex flex-col lg:flex-row min-h-[700px] bg-[#2a4435] overflow-hidden">
+<div class="lg:w-1/2 relative h-[400px] lg:h-auto overflow-hidden">
+    <img
+        alt="Farmland landscape"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] ease-linear hover:scale-110"
+        src="assets/images/farm.jpg"
+    />
+</div>
+<div class="lg:w-1/2 flex items-center px-margin-desktop py-20 reveal-up">
+<div class="max-w-xl">
+<span class="text-xs font-bold text-primary tracking-[0.3em] uppercase mb-6 block">Farmland Expertise</span>
+<h2 class="font-display text-5xl italic text-white mb-8">Rooted in the Soil of India</h2>
+<p class="font-body text-lg text-white/80 mb-12 leading-relaxed">
+                    For over a decade, LEVATE PROPERTIES has been the trusted name in farmland acquisition across Lucknow. We specialize in identifying fertile land with clear documentation, proper connectivity, and immense appreciation potential. Our farmhouses are designed as weekend sanctuaries — where urban professionals reconnect with nature without compromising on luxury.
+                </p>
+<div class="grid grid-cols-3 gap-8 mb-12">
+<div>
+<div class="font-display text-3xl text-primary mb-1 counter" data-target="500">0</div>
+<div class="text-[10px] tracking-widest text-white/60 uppercase">Acres Sold</div>
+</div>
+<div>
+<div class="font-display text-3xl text-primary mb-1 counter" data-target="163">0</div>
+<div class="text-[10px] tracking-widest text-white/60 uppercase">Happy Families</div>
+</div>
+<div>
+<div class="font-display text-3xl text-primary mb-1 counter" data-target="15">0</div>
+<div class="text-[10px] tracking-widest text-white/60 uppercase">Projects</div>
+</div>
+</div>
+<button class="btn-outline border-white text-white hover:bg-white hover:text-[#2a4435]">Explore Farmland</button>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="py-section-gap bg-surface-container-lowest px-margin-desktop overflow-hidden" id="testimonials">
+<div class="max-w-container-max-width mx-auto">
+<div class="text-center mb-20 reveal-up">
+<span class="text-xs font-bold text-primary tracking-[0.3em] uppercase mb-4 block">Client Stories</span>
+<h2 class="font-display text-5xl italic">Words That Inspire Trust</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-surface p-12 interactive-card reveal-up">
+<div class="flex gap-1 text-primary mb-6">
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+</div>
+<p class="font-body italic text-on-surface-variant leading-relaxed mb-8">
+                        "A credible and reliable real estate company. Thanks for putting endeavor to make our dream come true of my own beautiful house."
+                    </p>
+<div>
+<div class="font-semibold text-sm">Homeowner</div>
+<div class="text-xs text-primary/60">Green Valley</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface p-12 interactive-card reveal-up">
+<div class="flex gap-1 text-primary mb-6">
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+</div>
+<p class="font-body italic text-on-surface-variant leading-relaxed mb-8">
+                        "Very helpful and supportive team. Thanks to Mr. Abuzar who helped to find out the good location for plot in UP."
+                    </p>
+<div>
+<div class="font-semibold text-sm">Plot Buyer</div>
+<div class="text-xs text-primary/60">xyz Road</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface p-12 interactive-card reveal-up">
+<div class="flex gap-1 text-primary mb-6">
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+</div>
+<p class="font-body italic text-on-surface-variant leading-relaxed mb-8">
+                        "Good professional service. They guided us through every step of buying our farmhouse. Couldn't have asked for a better experience."
+                    </p>
+<div>
+<div class="font-semibold text-sm">Farmhouse Owner</div>
+<div class="text-xs text-primary/60">ganj</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="bg-[#f2efe6] py-section-gap px-margin-desktop text-surface overflow-hidden" id="contact">
+<div class="max-w-container-max-width mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32">
+<div class="reveal-up">
+<span class="text-xs font-bold text-surface/60 tracking-[0.3em] uppercase mb-6 block">Get In Touch</span>
+<h2 class="font-display text-5xl md:text-6xl italic mb-12">Let's Build Your Future</h2>
+<p class="font-body text-lg text-surface/80 mb-12 max-w-md leading-relaxed">
+                    Visit our office in Lucknow or reach out to discuss your real estate goals. Whether you're looking for a dream home, a commercial investment, or peaceful farmland — we're here to guide you.
+                </p>
+<div class="space-y-6 text-sm">
+<p class="flex flex-col">
+<span class="font-bold">Business District,</span>
+<span>Modern City,</span>
+<span>India — XXXXXX</span>
+</p>
+<p class="text-surface/60 uppercase tracking-widest text-xs">Mon – Sat: 10:00 AM – 7:00 PM</p>
+</div>
+</div>
+<div class="reveal-up">
+<form class="space-y-8">
+<div class="border-b border-surface/20 pb-4">
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 placeholder:text-surface/40 text-surface" placeholder="Name" type="text"/>
+</div>
+<div class="border-b border-surface/20 pb-4">
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 placeholder:text-surface/40 text-surface" placeholder="Email" type="email"/>
+</div>
+<div class="border-b border-surface/20 pb-4">
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 placeholder:text-surface/40 text-surface" placeholder="Phone" type="tel"/>
+</div>
+<div class="border-b border-surface/20 pb-4">
+<textarea class="w-full bg-transparent border-none p-0 focus:ring-0 placeholder:text-surface/40 text-surface min-h-[100px]" placeholder="Message"></textarea>
+</div>
+<button class="w-full bg-primary text-surface py-5 font-bold uppercase tracking-widest text-sm hover:brightness-90 transition-all shadow-lg hover:shadow-primary/20">Send Message</button>
+</form>
+</div>
+</div>
+</section>
+
+<section id="location" class="bg-surface py-24 px-margin-desktop">
+    <div class="max-w-container-max-width mx-auto">
+
+        <div class="text-center mb-12 reveal-up">
+            <span class="text-xs font-bold text-primary tracking-[0.3em] uppercase">
+                Visit Us
+            </span>
+            <h2 class="font-display text-5xl italic mt-4 mb-4">
+                Find Our Office
+            </h2>
+            <p class="text-on-surface-variant text-sm">
+                Business District, Modern City, India — XXXXXX
+            </p>
+        </div>
+
+        <!-- Map + Info Card side by side on desktop, stacked on mobile -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 reveal-up">
+
+            <!-- Map: 2/3 width on desktop -->
+            <div class="lg:col-span-2 overflow-hidden rounded-xl border border-outline/20 shadow-2xl">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8219219600453!2d80.94634007535782!3d26.84647907675258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be2b01f2d7ea9%3A0xf7781c0a4b6c07c1!2sHazratganj%2C%20Lucknow%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                    width="100%"
+                    height="380"
+                    style="border:0; display:block;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Office Location">
+                </iframe>
+            </div>
+
+            <!-- Info Card: 1/3 width on desktop -->
+            <div class="bg-surface-container-low rounded-xl border border-outline/20 p-8 flex flex-col justify-between shadow-2xl">
+                <div>
+                    <div class="w-8 h-[1px] bg-primary mb-6"></div>
+                    <h3 class="font-display text-xl italic mb-6 text-on-surface">Our Office</h3>
+                    <div class="space-y-5 text-sm text-on-surface-variant">
+                        <div class="flex gap-3 items-start">
+                            <span class="material-symbols-outlined text-primary" style="font-size:18px;margin-top:1px;">location_on</span>
+                            <p>Business District,<br/>Modern City,<br/>India — XXXXXX</p>
+                        </div>
+                        <div class="flex gap-3 items-center">
+                            <span class="material-symbols-outlined text-primary" style="font-size:18px;">call</span>
+                            <p>+91 XXX XXXX XXX</p>
+                        </div>
+                        <div class="flex gap-3 items-center">
+                            <span class="material-symbols-outlined text-primary" style="font-size:18px;">mail</span>
+                            <p>info@example.com</p>
+                        </div>
+                        <div class="flex gap-3 items-center">
+                            <span class="material-symbols-outlined text-primary" style="font-size:18px;">schedule</span>
+                            <p>Mon – Sat: 10 AM – 7 PM</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#contact" class="btn-outline mt-8 text-center block">Book a Visit</a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="bg-surface-container-lowest pt-24 pb-12 fade-in">
+<div class="max-w-container-max-width mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+<div class="md:col-span-1">
+<div class="font-display text-2xl tracking-[0.2em] mb-8">LEVATE PROPERTIES</div>
+<p class="text-xs text-on-surface-variant leading-relaxed max-w-xs mb-8">
+                        LEVATE PROPERTIES Pvt. Ltd. India's trusted real estate partner since 20XX.
+                    </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 border border-outline/30 flex items-center justify-center hover:border-primary hover:text-primary transition-all rounded-sm" href="#"><span class="material-symbols-outlined text-lg">public</span></a>
+<a class="w-10 h-10 border border-outline/30 flex items-center justify-center hover:border-primary hover:text-primary transition-all rounded-sm" href="#"><span class="material-symbols-outlined text-lg">share</span></a>
+<a class="w-10 h-10 border border-outline/30 flex items-center justify-center hover:border-primary hover:text-primary transition-all rounded-sm" href="#"><span class="material-symbols-outlined text-lg">mail</span></a>
+</div>
+</div>
+<div>
+<h4 class="text-[10px] font-bold text-primary tracking-[0.2em] uppercase mb-8">Services</h4>
+<ul class="space-y-4 text-xs text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Residential</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Commercial</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Farmland</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[10px] font-bold text-primary tracking-[0.2em] uppercase mb-8">Projects</h4>
+<ul class="space-y-4 text-xs text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Serene Meadows</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">The Meridian</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Green Valley</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[10px] font-bold text-primary tracking-[0.2em] uppercase mb-8">Connect</h4>
+<ul class="space-y-4 text-xs text-on-surface-variant">
+<li class="font-semibold text-on-surface">+91 XXX XXXX XXX</li>
+<li><a class="hover:text-primary transition-colors" href="#">info@example.com</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Instagram</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-12 border-t border-outline/10 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-[10px] text-on-surface-variant tracking-widest uppercase">© 2024 LEVATE PROPERTIES. ALL RIGHTS RESERVED.</p>
+<div class="flex gap-8">
+<a class="text-[10px] text-on-surface-variant tracking-widest uppercase hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-[10px] text-on-surface-variant tracking-widest uppercase hover:text-primary" href="#">Terms of Service</a>
+</div>
+<p class="text-[10px] text-on-surface-variant tracking-widest uppercase">Designed for Luxury</p>
+</div>
+</div>
+</footer>
+
+
+<script>
+        // Hamburger / Mobile Drawer
+        const hamburger = document.getElementById('hamburger');
+        const drawer = document.getElementById('mobile-drawer');
+        const backdrop = document.getElementById('drawer-backdrop');
+
+        function openDrawer() {
+            hamburger.classList.add('open');
+            hamburger.setAttribute('aria-expanded', 'true');
+            drawer.classList.add('open');
+            drawer.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDrawer() {
+            hamburger.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            drawer.classList.remove('open');
+            drawer.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', () => {
+            drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+        });
+        backdrop.addEventListener('click', closeDrawer);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+        drawer.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                closeDrawer();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 350);
+            });
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            if (anchor.closest('#mobile-drawer')) return;
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for Reveal Animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Once animated, no need to observe again unless you want repeat animations
+                    // revealObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up, .fade-in').forEach(el => revealObserver.observe(el));
+
+        // Stat Counter Animation
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const duration = 2000; // 2 seconds
+                    const startTime = performance.now();
+                    
+                    const updateCounter = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Easing function: easeOutExpo
+                        const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                        
+                        const currentCount = Math.floor(easedProgress * target);
+                        counter.innerText = currentCount + (target > 100 && target !== 163 ? '+' : '');
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.innerText = target + (target > 100 && target !== 163 ? '+' : '');
+                        }
+                    };
+                    
+                    requestAnimationFrame(updateCounter);
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+        // Navbar Scroll Background & Opacity
+        const nav = document.getElementById('top-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('glass-panel', 'py-4', 'shadow-2xl');
+                nav.classList.remove('py-8');
+                nav.style.background = 'rgba(18, 20, 20, 0.95)';
+            } else {
+                nav.classList.remove('glass-panel', 'py-4', 'shadow-2xl');
+                nav.classList.add('py-8');
+                nav.style.background = 'transparent';
+            }
+        });
+
+        // Hero Entrance Sequence
+        window.addEventListener('load', () => {
+
+            // Staggered entrance for hero elements
+            const heroElements = document.querySelectorAll('.hero-stagger');
+            heroElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.transition = 'all 1s cubic-bezier(0.2, 1, 0.3, 1)';
+                    el.classList.add('active');
+                }, 200 + (index * 150));
+            });
+        });
+    </script>
+</body></html>
